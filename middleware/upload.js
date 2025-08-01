@@ -3,14 +3,15 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Must pass null as first argument for no error
-    cb(null, "uploads/");
+    const uploadPath = path.join(__dirname, "..", "uploads");
+    console.log("Saving file to:", uploadPath);
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    // Unique name, including extension
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
+
 
 const upload = multer({ storage });
 
