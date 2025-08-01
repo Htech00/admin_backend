@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 require("dotenv").config()
 const cors = require("cors")
+const path = require("path")
 
 const propertyRoutes = require('./routes/propertyRoute')
 
@@ -20,7 +21,7 @@ app.use(express.json())
 app.use('/api/property', propertyRoutes )
 
 //upload image middleware
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname,'uploads')));
 
 const start = async () => {
   try {
