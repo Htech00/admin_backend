@@ -1,9 +1,9 @@
 const express = require("express");
-const addNewProperty = require("../controller/propertyController");
-
-
 const router = express.Router();
+const addNewProperty = require("../controller/propertyController");
+const upload = require("../middleware/upload"); // add this
 
-router.post("/", addNewProperty)
+// 👇 Include multer middleware before the controller
+router.post("/", upload.array('images'), addNewProperty);
 
 module.exports = router;
