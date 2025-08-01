@@ -1,20 +1,20 @@
-const Property = require("../models/PropertyModel");
+const PropertyModel = require("../models/PropertyModel")
+
+// ====== CONTROLLER FOR CREATING/POST A NEW Property =======
 
 const addNewProperty = async (req, res) => {
+
   try {
-    const imagePaths = req.files.map((file) => file.path);
+    const { title,city, area,score,reviewCount,rooms,bathrooms,size,pricePerNight,images} = req.body;
 
-    const newProperty = new Property({
-      ...req.body,
-      images: imagePaths,
-    });
+    const imagePaths = req.files?.map(file => file.path) || [];
 
-    await newProperty.save();
-    res.status(201).json({ message: "Property added", property: newProperty });
-  } catch (error) {
-    console.error("Upload Error:", error);
-    res.status(500).json({ message: "Server Error" });
+    const property = await PropertyModel.create({ title,city, area,score,reviewCount,rooms,bathrooms,size,pricePerNight, imagePaths });
+
+    res.status(201).json(property);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
 
-module.exports = addNewProperty;
+module.exports = addNewProperty
