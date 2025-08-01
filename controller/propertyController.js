@@ -5,7 +5,7 @@ const PropertyModel = require("../models/PropertyModel")
 const addNewProperty = async (req, res) => {
 
   try {
-    const { title,city, area,score,reviewCount,rooms,bathrooms,size,pricePerNight,images} = req.body;
+    const { title,city, area,score,reviewCount,rooms,bathrooms,size,pricePerNight} = req.body;
 
     const imagePaths = req.files?.map(file => file.path) || [];
 
