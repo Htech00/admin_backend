@@ -21,7 +21,8 @@ app.use(express.json())
 app.use('/api/property', propertyRoutes )
 
 //upload image middleware
-app.use('/uploads', express.static(path.join(__dirname,'uploads')));
+app.use("/uploads", express.static("uploads")); // ✅ to serve uploaded images
+
 
 const start = async () => {
   try {
