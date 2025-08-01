@@ -21,9 +21,15 @@ app.use(express.json())
 app.use('/api/property', propertyRoutes )
 
 //upload image middleware
-app.use("/uploads", express.static("uploads")); // ✅ to serve uploaded images
+app.use("/uploads", express.static("uploads"));
 
+const fs = require('fs');
 
+const uploadsDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 const start = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
