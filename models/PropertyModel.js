@@ -1,16 +1,51 @@
 const mongoose = require("mongoose");
 
-const propertySchema = new mongoose.Schema({
-  title: String,
-  city: String,
-  area: String,
-  score: Number,
-  reviewCount: Number,
-  rooms: Number,
-  bathrooms: Number,
-  size: Number,
-  pricePerNight: Number,
-  images: [String], // array of image file paths
-});
+const PropertySchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    area: {
+      type: String,
+      required: true,
+    },
+    score: {
+      type: Number,
+      default: 0,
+    },
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
+    rooms: {
+      type: Number,
+      required: true,
+    },
+    bathrooms: {
+      type: Number,
+      required: true,
+    },
+    size: {
+      type: Number,
+      required: true,
+    },
+    pricePerNight: {
+      type: Number,
+      required: true,
+    },
+    imagePaths: {
+      type: [String], // Array of image paths
+      default: [],
+    },
+  },
+  {
+    timestamps: true, // Adds createdAt and updatedAt
+  }
+);
 
-module.exports = mongoose.model("Property", propertySchema);
+module.exports = mongoose.model("Property", PropertySchema);
