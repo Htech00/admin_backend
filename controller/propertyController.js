@@ -5,10 +5,7 @@ const addNewProperty = async (req, res) => {
     console.log("FILES RECEIVED:", req.files);
     console.log("BODY RECEIVED:", req.body);
 
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ error: "No images uploaded" });
-    }
-
+    // Convert numbers explicitly
     const {
       title,
       city,
@@ -21,18 +18,19 @@ const addNewProperty = async (req, res) => {
       pricePerNight,
     } = req.body;
 
-    // Convert numeric fields from strings to numbers explicitly:
+    const imagePaths = req.files?.map(file => file.path) || [];
+
     const property = await PropertyModel.create({
       title,
       city,
       area,
-      score: parseFloat(score),
-      reviewCount: parseInt(reviewCount),
-      rooms: parseInt(rooms),
-      bathrooms: parseInt(bathrooms),
-      size: parseFloat(size),
-      pricePerNight: parseFloat(pricePerNight),
-      images: req.files.map(file => file.path),
+      score: score ? parseFloat(score) : undefined,
+      reviewCount: reviewCount ? parseInt(reviewCount) : undefined,
+      rooms: rooms ? parseInt(rooms) : undefined,
+      bathrooms: bathrooms ? parseInt(bathrooms) : undefined,
+      size: size ? parseFloat(size) : undefined,
+      pricePerNight: pricePerNight ? parseFloat(pricePerNight) : undefined,
+      images: imagePaths,
     });
 
     res.status(201).json(property);
