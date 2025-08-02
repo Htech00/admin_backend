@@ -2,10 +2,9 @@ const PropertyModel = require("../models/PropertyModel");
 
 const addNewProperty = async (req, res) => {
   try {
-    console.log("FILES RECEIVED:", req.files);
+    console.log("FILES RECEIVED:", req.files); // log this
     console.log("BODY RECEIVED:", req.body);
 
-    // Convert numbers explicitly
     const {
       title,
       city,
@@ -24,12 +23,12 @@ const addNewProperty = async (req, res) => {
       title,
       city,
       area,
-      score: score ? parseFloat(score) : undefined,
-      reviewCount: reviewCount ? parseInt(reviewCount) : undefined,
-      rooms: rooms ? parseInt(rooms) : undefined,
-      bathrooms: bathrooms ? parseInt(bathrooms) : undefined,
-      size: size ? parseFloat(size) : undefined,
-      pricePerNight: pricePerNight ? parseFloat(pricePerNight) : undefined,
+      score,
+      reviewCount,
+      rooms,
+      bathrooms,
+      size,
+      pricePerNight,
       images: imagePaths,
     });
 
