@@ -18,7 +18,7 @@ const addNewProperty = async (req, res) => {
       pricePerNight,
     } = req.body;
 
-    const imagePaths = req.files?.map(file => file.path) || [];
+    const imagePaths = req.files?.map((file) => file.path) || []; //This line is safely extracting the file paths from uploaded files using optional chaining and mapping
 
     const property = await PropertyModel.create({
       title,
@@ -40,4 +40,14 @@ const addNewProperty = async (req, res) => {
   }
 };
 
-module.exports = addNewProperty;
+const fetchAllData = async (req, res) => {
+  try {
+    const fetchData = await PropertyModel.find();
+    res.status(200).json(fetchData);
+    console.log(fetchData);
+  } catch (err) {
+    console.log("Failed to fetch data", err);
+  }
+};
+
+module.exports = { addNewProperty, fetchAllData };

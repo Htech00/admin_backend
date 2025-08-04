@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const addNewProperty = require("../controller/propertyController");
+const {addNewProperty, fetchAllData} = require("../controller/propertyController");
 const upload = require("../middleware/upload");
 
 router.post("/", (req, res) => {
@@ -14,5 +14,8 @@ router.post("/", (req, res) => {
     addNewProperty(req, res);
   });
 });
+
+//fetch all data routes
+router.get("/all",fetchAllData)
 
 module.exports = router;
