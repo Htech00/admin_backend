@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const {addNewProperty, fetchAllData} = require("../controller/propertyController");
+const {addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty} = require("../controller/propertyController");
 const upload = require("../middleware/upload");
 
 router.post("/", (req, res) => {
@@ -17,5 +17,12 @@ router.post("/", (req, res) => {
 
 //fetch all data routes
 router.get("/all",fetchAllData)
+
+//fetch parginated data for view properties
+router.get('/view', getPaginatedProperties)
+
+// deleting router
+router.delete("/:id", deleteProperty);
+
 
 module.exports = router;

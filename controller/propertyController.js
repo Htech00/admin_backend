@@ -50,4 +50,43 @@ const fetchAllData = async (req, res) => {
   }
 };
 
-module.exports = { addNewProperty, fetchAllData };
+const getPaginatedProperties = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      PropertyModel.find().skip(skip).limit(limit),
+      PropertyModel.countDocuments()
+    ]);
+
+    res.status(200).json({
+      data,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
+const deleteProperty = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedProperty = await PropertyModel.findByIdAndDelete(id);
+    if (!deletedProperty) {
+      return res.status(404).json({ message: "Property not found" });
+    }
+
+    res.status(200).json({ message: "Property deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+
+module.exports = { addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty };
