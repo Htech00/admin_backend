@@ -60,10 +60,15 @@ const addNewProperty = async (req, res) => {
     } = req.body;
 
     // Upload each file to Cloudinary and get the URL
-    const uploadPromises = req.files.map((file) =>
-      cloudinary.uploader.upload(file.path)
-    );
-    const uploadResults = await Promise.all(uploadPromises);
+    try {
+  const result = await cloudinary.uploader.upload(file.path);
+  // ...
+} catch (err) {
+  console.error("Cloudinary upload failed:", err);
+  throw err; // so it's caught by your outer try/catch
+}
+
+    const uploadResults = await Promise.all(result);
 
     // Extract the URLs
     const imageUrls = uploadResults.map((result) => result.secure_url);
