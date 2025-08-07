@@ -1,48 +1,5 @@
 const PropertyModel = require("../models/PropertyModel");
-const cloudinary = require('cloudinary').v2;
-
-
-// const addNewProperty = async (req, res) => {
-//   try {
-//     console.log("FILES RECEIVED:", req.files);
-//     console.log("BODY RECEIVED:", req.body);
-
-//     // Convert numbers explicitly
-//     const {
-//       title,
-//       city,
-//       area,
-//       score,
-//       reviewCount,
-//       rooms,
-//       bathrooms,
-//       size,
-//       pricePerNight,
-//     } = req.body;
-
-//     const imagePaths = req.files?.map((file) => file.path) || []; //This line is safely extracting the file paths from uploaded files using optional chaining and mapping
-
-//     const property = await PropertyModel.create({
-//       title,
-//       city,
-//       area,
-//       score: score ? parseFloat(score) : undefined,
-//       reviewCount: reviewCount ? parseInt(reviewCount) : undefined,
-//       rooms: rooms ? parseInt(rooms) : undefined,
-//       bathrooms: bathrooms ? parseInt(bathrooms) : undefined,
-//       size: size ? parseFloat(size) : undefined,
-//       pricePerNight: pricePerNight ? parseFloat(pricePerNight) : undefined,
-//       images: imagePaths,
-//     });
-
-//     res.status(201).json(property);
-//   } catch (err) {
-//     console.error("❌ Upload failed:", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-
+const cloudinary = require("cloudinary").v2;
 
 const addNewProperty = async (req, res) => {
   try {
@@ -62,6 +19,7 @@ const addNewProperty = async (req, res) => {
     } = req.body;
 
     // Upload all files to Cloudinary
+    // Promise.all() if one of the files fails to upload then it stop everything and jump to the catch 
     const uploadResults = await Promise.all(
       req.files.map(async (file) => {
         try {
@@ -98,8 +56,6 @@ const addNewProperty = async (req, res) => {
   }
 };
 
-
-
 const fetchAllData = async (req, res) => {
   try {
     const fetchData = await PropertyModel.find();
@@ -113,12 +69,12 @@ const fetchAllData = async (req, res) => {
 const getPaginatedProperties = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
     const [data, total] = await Promise.all([
       PropertyModel.find().skip(skip).limit(limit),
-      PropertyModel.countDocuments()
+      PropertyModel.countDocuments(),
     ]);
 
     res.status(200).json({
@@ -147,6 +103,9 @@ const deleteProperty = async (req, res) => {
   }
 };
 
-
-
-module.exports = { addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty };
+module.exports = {
+  addNewProperty,
+  fetchAllData,
+  getPaginatedProperties,
+  deleteProperty,
+};

@@ -6,16 +6,7 @@ const {addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty} = r
 // const upload = require("../middleware/upload");
 const upload = require('../utils/multer');
 
-// router.post("/", (req, res) => {
-//   upload.array("images", 10)(req, res, (err) => {
-//     if (err) {
-//       console.error("Multer error:", err);
-//       return res.status(400).json({ error: err.message });
-//     }
-//     addNewProperty(req, res);
-//   });
-// });
-
+//Router to add new properties 
 router.post('/create', upload.array('images', 5), addNewProperty);
 
 
