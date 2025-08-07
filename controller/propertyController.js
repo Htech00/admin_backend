@@ -1,4 +1,6 @@
 const PropertyModel = require("../models/PropertyModel");
+const cloudinary = require('cloudinary').v2;
+
 
 // const addNewProperty = async (req, res) => {
 //   try {
@@ -59,20 +61,23 @@ const addNewProperty = async (req, res) => {
       pricePerNight,
     } = req.body;
 
-    // Upload each file to Cloudinary and get the URL
-    try {
-  const result = await cloudinary.uploader.upload(file.path);
-  // ...
-} catch (err) {
-  console.error("Cloudinary upload failed:", err);
-  throw err; // so it's caught by your outer try/catch
-}
+    // Upload all files to Cloudinary
+    const uploadResults = await Promise.all(
+      req.files.map(async (file) => {
+        try {
+          const result = await cloudinary.uploader.upload(file.path);
+          return result;
+        } catch (err) {
+          console.error("Cloudinary upload failed:", err);
+          throw err; // This will break the Promise.all and go to outer catch
+        }
+      })
+    );
 
-    const uploadResults = await Promise.all(result);
-
-    // Extract the URLs
+    // Extract URLs
     const imageUrls = uploadResults.map((result) => result.secure_url);
 
+    // Save to MongoDB
     const property = await PropertyModel.create({
       title,
       city,
@@ -92,6 +97,7 @@ const addNewProperty = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 const fetchAllData = async (req, res) => {
