@@ -5,6 +5,7 @@ const cors = require('cors')
 const path = require("path")
 
 const propertyRoutes = require('./routes/propertyRoute')
+const authRoutes = require('./routes/authRoute')
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json())
 
 //routes middleware
 app.use('/api/property', propertyRoutes )
+app.use('/api', authRoutes )
 
 //upload image middleware
 // app.use("/uploads", express.static("uploads"));
