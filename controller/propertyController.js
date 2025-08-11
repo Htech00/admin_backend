@@ -1,5 +1,7 @@
+
 const PropertyModel = require("../models/PropertyModel");
 const cloudinary = require("cloudinary").v2;
+
 
 const addNewProperty = async (req, res) => {
   try {

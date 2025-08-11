@@ -6,6 +6,7 @@ const path = require("path")
 
 const propertyRoutes = require('./routes/propertyRoute')
 const authRoutes = require('./routes/authRoute')
+const adminRoutes = require('./routes/adminRoute')
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json())
 //routes middleware
 app.use('/api/property', propertyRoutes )
 app.use('/api/auth', authRoutes )
+app.use('/api', adminRoutes)
 
 //upload image middleware
 // app.use("/uploads", express.static("uploads"));
