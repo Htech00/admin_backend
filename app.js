@@ -20,7 +20,7 @@ app.use(express.json())
 
 //routes middleware
 app.use('/api/property', propertyRoutes )
-app.use('/api', authRoutes )
+app.use('/api/auth', authRoutes )
 
 //upload image middleware
 // app.use("/uploads", express.static("uploads"));
