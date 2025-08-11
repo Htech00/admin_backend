@@ -6,7 +6,7 @@ const addAdmin = async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
-    const existingAdmin = await Admin.findOne({ username });
+    const existingAdmin = await AdminModel.findOne({ username });
     if (existingAdmin) {
       return res.status(400).json({ message: "Username already exists" });
     }
