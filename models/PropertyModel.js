@@ -13,6 +13,7 @@ const propertySchema = new mongoose.Schema({
   pricePerNight: Number,
   images: [String], // <== Store image paths here
   amenities: [String],
+  description: String,
   location: {
     type: {
       type: String,

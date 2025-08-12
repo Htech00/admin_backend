@@ -20,6 +20,7 @@ const addNewProperty = async (req, res) => {
       latitude,
       longitude,
       amenities,
+      description
     } = req.body;
 
     // Upload all files to Cloudinary
@@ -68,6 +69,7 @@ const addNewProperty = async (req, res) => {
         coordinates: [parseFloat(longitude), parseFloat(latitude)],
       },
       amenities: amenitiesArray,
+      description: description
     });
 
     res.status(201).json(property);
