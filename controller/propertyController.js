@@ -1,7 +1,5 @@
-
 const PropertyModel = require("../models/PropertyModel");
 const cloudinary = require("cloudinary").v2;
-
 
 const addNewProperty = async (req, res) => {
   try {
@@ -10,6 +8,7 @@ const addNewProperty = async (req, res) => {
 
     const {
       title,
+      propertyType,
       city,
       area,
       score,
@@ -18,10 +17,13 @@ const addNewProperty = async (req, res) => {
       bathrooms,
       size,
       pricePerNight,
+      latitude,
+      longitude,
+      amenities,
     } = req.body;
 
     // Upload all files to Cloudinary
-    // Promise.all() if one of the files fails to upload then it stop everything and jump to the catch 
+    // Promise.all() if one of the files fails to upload then it stop everything and jump to the catch
     const uploadResults = await Promise.all(
       req.files.map(async (file) => {
         try {
@@ -37,9 +39,21 @@ const addNewProperty = async (req, res) => {
     // Extract URLs
     const imageUrls = uploadResults.map((result) => result.secure_url);
 
+    // Convert amenities string to array if needed
+    if (amenities) {
+      if (Array.isArray(amenities)) {
+        amenitiesArray = amenities.map((a) => a.trim()).filter((a) => a);
+      } else if (typeof amenities === "string") {
+        amenitiesArray = amenities
+          .split(",")
+          .map((a) => a.trim())
+          .filter((a) => a);
+      }
+    }
     // Save to MongoDB
     const property = await PropertyModel.create({
       title,
+      propertyType,
       city,
       area,
       score: score ? parseFloat(score) : undefined,
@@ -49,6 +63,11 @@ const addNewProperty = async (req, res) => {
       size: size ? parseFloat(size) : undefined,
       pricePerNight: pricePerNight ? parseFloat(pricePerNight) : undefined,
       images: imageUrls,
+      location: {
+        type: "Point",
+        coordinates: [parseFloat(longitude), parseFloat(latitude)],
+      },
+      amenities: amenitiesArray,
     });
 
     res.status(201).json(property);
