@@ -77,6 +77,29 @@ const addNewProperty = async (req, res) => {
   }
 };
 
+// Find Properties Near a Location
+const getNearbyProperties = async (req, res) => {
+  const { lat, lng, maxDistance = 5000 } = req.query; // distance in 5000 meters or 5km
+  try {
+    const properties = await PropertyModel.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+          },
+          $maxDistance: parseInt(maxDistance),
+        },
+      },
+    });
+
+    res.json(properties);
+  } catch (error) {
+    console.error("Error finding nearby properties:", error);
+    res.status(500).json({ message: "Error fetching nearby properties" });
+  }
+};
+
 const fetchAllData = async (req, res) => {
   try {
     const fetchData = await PropertyModel.find();
@@ -126,6 +149,7 @@ const deleteProperty = async (req, res) => {
 
 module.exports = {
   addNewProperty,
+  getNearbyProperties,
   fetchAllData,
   getPaginatedProperties,
   deleteProperty,

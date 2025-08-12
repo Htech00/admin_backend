@@ -2,13 +2,15 @@
 
 const express = require("express");
 const router = express.Router();
-const {addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty} = require("../controller/propertyController");
+const {addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty, getNearbyProperties} = require("../controller/propertyController");
 // const upload = require("../middleware/upload");
 const upload = require('../utils/multer');
 
 //Router to add new properties 
 router.post('/create', upload.array('images', 5), addNewProperty);
 
+//fetch all data routes
+router.get("/nearby",getNearbyProperties)
 
 //fetch all data routes
 router.get("/all",fetchAllData)

@@ -14,7 +14,11 @@ const port = process.env.PORT || 5000;
 
 //All middleware
 //cors
-app.use(cors())
+app.use(cors({
+  origin: 'admin-backend-rrt2.onrender.com', // Your frontend origin
+  methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
 
 //express
 app.use(express.json())
