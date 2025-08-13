@@ -149,10 +149,21 @@ const deleteProperty = async (req, res) => {
   }
 };
 
+const propertyCount = async (req, res) => {
+  try {
+    const totalCount = await PropertyModel.countDocuments({})
+    res.json({totalCount})
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   addNewProperty,
   getNearbyProperties,
   fetchAllData,
   getPaginatedProperties,
   deleteProperty,
+  propertyCount
 };

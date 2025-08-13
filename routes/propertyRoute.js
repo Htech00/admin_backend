@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const {addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty, getNearbyProperties} = require("../controller/propertyController");
+const {addNewProperty, fetchAllData, getPaginatedProperties, deleteProperty, getNearbyProperties, propertyCount} = require("../controller/propertyController");
 // const upload = require("../middleware/upload");
 const upload = require('../utils/multer');
 
@@ -20,6 +20,9 @@ router.get('/view', getPaginatedProperties)
 
 // deleting router
 router.delete("/:id", deleteProperty);
+
+//Count property router 
+router.get("/totalProperty",propertyCount)
 
 
 module.exports = router;
