@@ -151,7 +151,7 @@ const deleteProperty = async (req, res) => {
 
 const propertyCount = async (req, res) => {
   try {
-      const count = await PropertyModel.countDocuments();
+      const count = await PropertyModel.estimatedDocumentCount();
       res.status(200).json({ totalCount: count });
     } catch (err) {
       res.status(500).json({ message: 'Error fetching count' });
