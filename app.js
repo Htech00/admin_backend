@@ -14,23 +14,21 @@ const port = process.env.PORT || 5000;
 
 //All middleware
 //cors
-// const allowedOrigins = [
-//   'http://localhost:5173',                  // for local development
-//   'https://admin-booking-jade.vercel.app'   // for production frontend
-// ];
+const allowedOrigins = [
+  'http://localhost:5173',                  // for local development
+  'https://admin-booking-jade.vercel.app'   // for production frontend
+];
 
-// app.use(cors({
-//   origin: function(origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true // enable if frontend sends cookies or auth headers
-// }));
-
-app.use(cors())
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true // enable if frontend sends cookies or auth headers
+}));
 
 
 
