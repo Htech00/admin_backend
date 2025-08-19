@@ -11,7 +11,7 @@ const adminLogin = async (req, res) => {
       const token = jwt.sign(
         { username: "super_admin", role: "super_admin" },
         process.env.JWT_SECRETKEY,
-        { expiresIn: "24h" }
+        { expiresIn: "1d" }
       );
       return res.json({ token, username: "super_admin", role: "super_admin" });
     }
