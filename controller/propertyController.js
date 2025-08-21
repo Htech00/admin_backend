@@ -79,6 +79,112 @@ const addNewProperty = async (req, res) => {
   }
 };
 
+const getEachProperties = async (req, res) => {
+  try {
+    const goal = await PropertyModel.findById(req.params.id);
+    if (!goal) {
+      return res.status(404).json({ message: "Goal not found" });
+    }
+    res.status(200).json(goal);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+const updateProperties = async (req, res) => {
+  try {
+    console.log("FILES RECEIVED:", req.files);
+    console.log("BODY RECEIVED:", req.body);
+
+    const {
+      title,
+      propertyType,
+      city,
+      area,
+      score,
+      reviewCount,
+      rooms,
+      bathrooms,
+      size,
+      pricePerNight,
+      latitude,
+      longitude,
+      amenities,
+      description,
+    } = req.body;
+
+    const propertyId = req.params.id; // 👈 Get ID from route params
+
+    if (!propertyId) {
+      return res.status(400).json({ error: "Missing property ID in request" });
+    }
+
+    let amenitiesArray = [];
+
+    // Upload new images to Cloudinary
+    const imageUrls = req.files?.length
+      ? await Promise.all(
+          req.files.map(async (file) => {
+            const result = await cloudinary.uploader.upload(file.path);
+            return result.secure_url;
+          })
+        )
+      : [];
+
+    // Convert amenities string to array if needed
+    if (amenities) {
+      if (Array.isArray(amenities)) {
+        amenitiesArray = amenities.map((a) => a.trim()).filter((a) => a);
+      } else if (typeof amenities === "string") {
+        amenitiesArray = amenities
+          .split(",")
+          .map((a) => a.trim())
+          .filter((a) => a);
+      }
+    }
+
+    // Build update payload
+    const updatedData = {
+      ...(title && { title }),
+      ...(propertyType && { propertyType }),
+      ...(city && { city }),
+      ...(area && { area }),
+      ...(score && { score: parseFloat(score) }),
+      ...(reviewCount && { reviewCount: parseInt(reviewCount) }),
+      ...(rooms && { rooms: parseInt(rooms) }),
+      ...(bathrooms && { bathrooms: parseInt(bathrooms) }),
+      ...(size && { size: parseFloat(size) }),
+      ...(pricePerNight && { pricePerNight: parseFloat(pricePerNight) }),
+      ...(latitude &&
+        longitude && {
+          location: {
+            type: "Point",
+            coordinates: [parseFloat(longitude), parseFloat(latitude)],
+          },
+        }),
+      ...(amenitiesArray.length && { amenities: amenitiesArray }),
+      ...(description && { description }),
+      ...(imageUrls.length && { images: imageUrls }),
+    };
+
+    // Update in DB
+    const updatedProperty = await PropertyModel.findByIdAndUpdate(
+      propertyId,
+      updatedData,
+      { new: true } // returns the updated document
+    );
+
+    if (!updatedProperty) {
+      return res.status(404).json({ error: "Property not found" });
+    }
+
+    res.status(200).json(updatedProperty);
+  } catch (err) {
+    console.error("❌ Property update failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Find Properties Near a Location
 const getNearbyProperties = async (req, res) => {
   const { lat, lng, maxDistance = 5000 } = req.query; // distance in 5000 meters or 5km
@@ -160,9 +266,11 @@ const propertyCount = async (req, res) => {
 
 module.exports = {
   addNewProperty,
+  updateProperties,
   getNearbyProperties,
   fetchAllData,
   getPaginatedProperties,
   deleteProperty,
-  propertyCount
+  propertyCount,
+  getEachProperties
 };

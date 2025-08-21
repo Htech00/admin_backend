@@ -30,9 +30,6 @@ app.use(cors({
   credentials: true // enable if frontend sends cookies or auth headers
 }));
 
-
-
-
 //express
 app.use(express.json())
 
