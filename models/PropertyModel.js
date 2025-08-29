@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { adminConnection } = require("../db");
 
 const propertySchema = new mongoose.Schema({
   title: String,
@@ -27,4 +28,4 @@ const propertySchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Property", propertySchema);
+module.exports = adminConnection.model("Property", propertySchema);

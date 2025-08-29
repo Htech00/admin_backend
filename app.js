@@ -1,5 +1,4 @@
 const express = require("express")
-const mongoose = require("mongoose")
 require("dotenv").config()
 const cors = require('cors')
 const path = require("path")
@@ -50,19 +49,11 @@ const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
-const start = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("Database connected");
-    app.listen(port, () => {
-      console.log(`Server is running on ${port}`);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
-start();
 
+// start server
+app.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
+});
 //htechsolutionz
 //sZzvlMWyNriSwlQ7
 //mongodb+srv://htechsolutionz:sZzvlMWyNriSwlQ7@cluster0.pkcldjw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
