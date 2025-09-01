@@ -7,7 +7,7 @@ exports.getActiveAdmin = async (req, res) => {
     const admin = await Admin.findOne(); // You can change this to logged-in admin
     if (!admin) return res.status(404).json({ error: "No admin found" });
 
-    res.json({ adminId: admin._id.toString(), username: admin.username });
+    res.json({ adminId: admin._id.toString(), username: admin.username || "unlnown" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
