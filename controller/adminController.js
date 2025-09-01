@@ -35,10 +35,9 @@ const listAdmin = async () => {
     const fetchAdminData = await AdminModel.find();
     res.status(200).json(fetchAdminData);
   } catch (err) {
-    console.log("Failed to fetch data", err);
+    console.log("Failed to fetch data", err);
   }
-  
-}
+};
 
 const getPaginatedAdmin = async (req, res) => {
   try {
@@ -77,4 +76,4 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
-module.exports = {addAdmin,listAdmin,deleteAdmin,getPaginatedAdmin}
+module.exports = { addAdmin, listAdmin, deleteAdmin, getPaginatedAdmin };

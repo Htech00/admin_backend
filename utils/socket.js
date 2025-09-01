@@ -1,7 +1,7 @@
 const Chat = require("../models/chatModel");
 
 function socketHandler(io) {
-    //This listens for new client connections to the Socket.IO server.
+  //This listens for new client connections to the Socket.IO server.
   io.on("connection", (socket) => {
     console.log("New client connected:", socket.id);
 
@@ -16,8 +16,9 @@ function socketHandler(io) {
     //Listens for "sendMessage" event, which the client triggers when sending a chat message.
     socket.on("sendMessage", async (data) => {
       try {
-        const { senderId, senderType, receiverId, receiverType, message } = data;
-        
+        const { senderId, senderType, receiverId, receiverType, message } =
+          data;
+
         //Makes sure receiverId exists. If not, it logs an error and returns early (doesn’t process the message).
         if (!receiverId) {
           console.error("receiverId missing in message:", data);
@@ -39,7 +40,6 @@ function socketHandler(io) {
 
         // Emit back to sender so they see their message instantly
         io.to(senderId).emit("receiveMessage", newMessage);
-
       } catch (err) {
         console.error("Error saving message:", err);
       }

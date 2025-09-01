@@ -1,6 +1,6 @@
-const AdminUser = require("../models/AdminModel")
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcrypt") 
+const AdminUser = require("../models/AdminModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const adminLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -36,17 +36,14 @@ const adminLogin = async (req, res) => {
     );
 
     res.json({ token, username: adminUser.username, role: adminUser.role });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 const getSuperAdminData = (req, res) => {
   res.json({ secret: "Only superadmins can see this." });
-}
+};
 
-module.exports = {adminLogin, getSuperAdminData}
-
-
+module.exports = { adminLogin, getSuperAdminData };

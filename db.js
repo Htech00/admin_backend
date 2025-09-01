@@ -16,9 +16,3 @@ chatConnection.on("connected", () => console.log("Chat DB connected"));
 chatConnection.on("error", (err) => console.error("Chat DB error:", err));
 
 module.exports = { userConnection, adminConnection, chatConnection };
-
-
-//username:bookingChat
-//password: Ojukwu123456789@
-
-//mongodb+srv://bookingChat:Ojukwu123456789%40@cluster0.gf9adcl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

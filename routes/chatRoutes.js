@@ -9,7 +9,10 @@ router.get("/active-admin", chatController.getActiveAdmin);
 router.post("/send", chatController.sendMessage);
 
 // get full chat history between admin & user
-router.get("/history/:adminUsername/:userUsername", chatController.getChatHistory);
+router.get(
+  "/history/:adminUsername/:userUsername",
+  chatController.getChatHistory
+);
 // Get unread messages for admin (notifications)
 router.get("/admin/notifications/all", chatController.getAdminNotifications);
 

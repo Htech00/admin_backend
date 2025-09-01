@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { userConnection } = require("../db");
 
-
 const registerSchema = new mongoose.Schema({
   name: {
     type: String,

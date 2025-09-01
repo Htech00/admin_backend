@@ -17,7 +17,8 @@ exports.getActiveAdmin = async (req, res) => {
 exports.sendMessage = async (req, res) => {
   try {
     //Destructuring to Gets message details from the request.
-    const { senderId, senderType, receiverId, receiverType, message } = req.body;
+    const { senderId, senderType, receiverId, receiverType, message } =
+      req.body;
 
     const newMessage = await Chat.create({
       senderId,
@@ -84,4 +85,3 @@ exports.markAsRead = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-

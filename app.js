@@ -12,11 +12,9 @@ const propertyRoutes = require("./routes/propertyRoute");
 const authRoutes = require("./routes/authRoute");
 const adminRoutes = require("./routes/adminRoute");
 const { getChatHistory } = require("./controller/messageController");
-const messageRoutes = require("./routes/messageRoute"); 
-const socketHandler = require("./utils/socket"); 
+const messageRoutes = require("./routes/messageRoute");
+const socketHandler = require("./utils/socket");
 const chatRoutes = require("./routes/chatRoutes");
-
-
 
 const app = express();
 const server = http.createServer(app);
@@ -32,11 +30,11 @@ const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
     methods: ["GET", "POST"],
-    credentials: true, // 🔑 allow cookies/headers if needed
+    credentials: true, // allow cookies/headers if needed
   },
 });
 
-// // ✅ Attach io to express app (so controllers can use it)
+// // Attach io to express app (so controllers can use it)
 // app.set("io", io);
 
 // Attach io to req for controllers (so chatController can emit too)
@@ -46,7 +44,6 @@ app.use((req, res, next) => {
 });
 
 const port = process.env.PORT || 5000;
-
 
 // ====== Middlewares ======
 app.use(
@@ -84,5 +81,5 @@ socketHandler(io);
 
 // ====== Start Server ======
 server.listen(port, () => {
-  console.log(`🚀 Server running on http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
