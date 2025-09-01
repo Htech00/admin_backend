@@ -11,8 +11,6 @@ const fs = require("fs");
 const propertyRoutes = require("./routes/propertyRoute");
 const authRoutes = require("./routes/authRoute");
 const adminRoutes = require("./routes/adminRoute");
-const { getChatHistory } = require("./controller/messageController");
-const messageRoutes = require("./routes/messageRoute");
 const socketHandler = require("./utils/socket");
 const chatRoutes = require("./routes/chatRoutes");
 
@@ -65,7 +63,6 @@ app.use(express.json());
 app.use("/api/property", propertyRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", adminRoutes);
-app.use("/api/messages", messageRoutes);
 app.use("/chat", chatRoutes);
 
 // ====== Uploads (static folder) ======
