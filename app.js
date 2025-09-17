@@ -20,7 +20,7 @@ const server = http.createServer(app);
 // ====== Allowed Origins ======
 const allowedOrigins = [
   "http://localhost:5173", // local dev
-  "https://admin-backend-rrt2.onrender.com", // production frontend
+  "https://admin-booking-jade.vercel.app", // production frontend
 ];
 
 // ====== Setup Socket.IO with proper CORS ======
